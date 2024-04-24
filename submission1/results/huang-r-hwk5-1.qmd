@@ -1,0 +1,183 @@
+---
+title: "huang-r-hwk5"
+author: Ron Huang
+data: \today{}
+
+format: 
+  pdf: 
+    toc: true
+    number-sections: true
+    colorlinks: true
+    highlight-style: atom-one-dark
+    code-hide: true
+    documentclass: article
+    fontsize: 12pt
+    geometry: margin=1in
+
+echo: false
+warning: false
+---
+
+# https://github.com/Rorn001/econ470-hwk5.git {.unnumbered}
+
+# Summarize the data
+
+```{python}
+import pickle
+
+with open('hwk5_Q1-10.pkl', 'rb') as f:
+   q1, q3, q4, q5, q6, q7, q8, q9, q10 = pickle.load(f)
+
+```
+
+## Plot the share of the adult population with direct purchase health insurance over time.
+
+```{python}
+import matplotlib.pyplot as plt
+
+q1
+
+```
+
+\newpage
+
+## Discuss the reduction in direct purchase health insurance in later years. Can you list a couple of policies that might have affected the success of the direct purchase insurance market?
+
+The share of direct purchase kept increasing until around 2016, after when the share of direct purchase starts decreasing. The most likely reason for this decrease is the medicaid expansion after 2014. The medicaid expansion increased the number of people who are eligible for medicaid, which is a cheaper alternative to direct purchase insurance. The other reason might be the introduction of the health insurance marketplace, which provides a platform for people to compare and purchase health insurance plans. The policy of individual and employer mandate might have also affected the success of the direct purchase insurance market, which might increase the share of people who are covered by employer-sponsored insurance and direct purchase becomes less preferable.
+
+\newpage
+
+## Plot the share of the adult population with Medicaid over time.
+
+```{python}
+q3
+```
+
+\newpage
+
+## Plot the share of uninsured over time, separately by states that expanded Medicaid in 2014 versus those that did not. Drop all states that expanded after 2014.
+
+```{python}
+q4
+```
+
+\newpage
+
+# Estimate ATEs
+
+## Calculate the average percent of uninsured individuals in 2012 and 2015, separately for expansion and non-expansion states. Present your results in a basic 2x2 DD table.
+
+```{python}
+q5
+
+```
+
+\newpage
+
+## Estimate the effect of Medicaid expansion on the uninsurance rate using a standard DD regression estimator, again focusing only on states that expanded in 2014 versus those that never expanded.
+
+
+\begin{table}[H]
+\caption{}
+\label{}
+\begin{center}
+\begin{tabular}{ll}
+\hline
+                 & Model     \\
+\hline
+TREAT            & -0.05***  \\
+                 & (0.01)    \\
+post             & -0.05***  \\
+                 & (0.01)    \\
+TREAT:post       & -0.02*    \\
+                 & (0.01)    \\
+Intercept        & 0.21***   \\
+                 & (0.01)    \\
+R-squared        & 0.51      \\
+R-squared Adj.   & 0.50      \\
+No. observations & 352       \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Standard errors in parentheses. \newline 
+* p<.1, ** p<.05, ***p<.01
+
+\newpage
+
+## Include state and year fixed effects in your estimates. Try using the lfe or fixest package to estimate this instead of directly including the fixed effects.
+
+\begin{table}[H]
+\caption{}
+\label{}
+\begin{center}
+\begin{tabular}{ll}
+\hline
+                                 & Model     \\
+\hline
+D\_T                             & -0.02***  \\
+                                 & (0.00)    \\
+Intercept                        & 0.21***   \\
+                                 & (0.01)    \\
+R-squared                        & 0.95      \\
+R-squared Adj.                   & 0.94      \\
+No. observations                 & 352       \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Standard errors in parentheses. \newline 
+* p<.1, ** p<.05, ***p<.01
+
+
+
+\newpage
+
+## Repeat the analysis in question 7 but include all states (even those that expanded after 2014). Are your results different? If so, why?
+
+\begin{table}[H]
+\caption{}
+\label{}
+\begin{center}
+\begin{tabular}{ll}
+\hline
+                                 & Model     \\
+\hline
+D\_T                             & -0.02***  \\
+                                 & (0.00)    \\
+Intercept                        & 0.21***   \\
+                                 & (0.01)    \\
+R-squared                        & 0.95      \\
+R-squared Adj.                   & 0.94      \\
+No. observations                 & 408       \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Standard errors in parentheses. \newline 
+* p<.1, ** p<.05, ***p<.01
+
+
+The coefficient slightly decreases. This might because either the pre-period difference between the treated and control becomes smaller or madicaid expansion has a smaller effect on the added states.
+
+\newpage
+
+## Provide an “event study” graph showing the effects of Medicaid expansion in each year. Use the specification that includes state and year fixed effects, limited to states that expanded in 2014 or never expanded.
+
+```{python}
+q9
+
+```
+
+\newpage
+
+## Repeat part 9 but again include states that expanded after 2014. Note: this is tricky…you need to put all states onto “event time” to create this graph.
+
+```{python}
+q10
+
+```
+
